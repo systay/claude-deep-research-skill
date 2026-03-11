@@ -81,7 +81,7 @@ class SourceEvaluator:
         domain = self._extract_domain(url)
 
         # Calculate component scores
-        domain_score = self._evaluate_domain_authority(domain)
+        domain_score = self._evaluate_domain_authority(domain, url, title)
         recency_score = self._evaluate_recency(publication_date)
         expertise_score = self._evaluate_expertise(domain, title, author)
         bias_score = self._evaluate_bias(domain, title, content)
@@ -120,17 +120,47 @@ class SourceEvaluator:
         domain = domain.replace('www.', '')
         return domain
 
-    def _evaluate_domain_authority(self, domain: str) -> float:
+    def _evaluate_domain_authority(
+        self, domain: str, url: str = "", title: str = ""
+    ) -> float:
         """Evaluate domain authority (0-100)"""
         if domain in self.HIGH_AUTHORITY_DOMAINS:
             return 90.0
         elif domain in self.MODERATE_AUTHORITY_DOMAINS:
+            if domain == 'github.com':
+                return self._evaluate_github_source(url, title)
             return 70.0
         elif any(indicator in domain for indicator in self.LOW_AUTHORITY_INDICATORS):
             return 40.0
         else:
             # Unknown domain - moderate skepticism
             return 55.0
+
+    def _evaluate_github_source(self, url: str, title: str) -> float:
+        """Evaluate GitHub source quality (60-90 range instead of flat 70)"""
+        score = 65.0
+        path = urlparse(url).path.lower() if url else ""
+
+        # Well-known organizations get higher trust
+        known_orgs = [
+            'google', 'microsoft', 'apache', 'facebook', 'meta',
+            'hashicorp', 'kubernetes', 'docker', 'mozilla', 'rust-lang',
+            'golang', 'python', 'nodejs', 'aws', 'azure', 'vitessio',
+            'cockroachdb', 'pingcap', 'tikv', 'redis', 'elastic',
+        ]
+        if any(org in path for org in known_orgs):
+            score += 15
+
+        # Repo pages (org/repo) are more authoritative than issues/discussions
+        path_parts = [p for p in path.split('/') if p]
+        if len(path_parts) == 2:  # org/repo pattern
+            score += 5
+
+        # Curated lists are good secondary sources
+        if 'awesome' in title.lower() or 'awesome' in path:
+            score += 10
+
+        return min(score, 90.0)
 
     def _evaluate_recency(self, publication_date: Optional[str]) -> float:
         """Evaluate information recency (0-100)"""
@@ -280,7 +310,22 @@ if __name__ == '__main__':
             'url': 'https://docs.python.org/3/library/asyncio.html',
             'title': 'asyncio — Asynchronous I/O',
             'publication_date': '2025-11-01'
-        }
+        },
+        {
+            'url': 'https://github.com/google/leveldb',
+            'title': 'google/leveldb: LevelDB is a fast key-value storage library',
+            'publication_date': '2025-01-15'
+        },
+        {
+            'url': 'https://github.com/someuser/my-project',
+            'title': 'someuser/my-project: A small utility',
+            'publication_date': '2025-02-01'
+        },
+        {
+            'url': 'https://github.com/sindresorhus/awesome-nodejs',
+            'title': 'awesome-nodejs: Delightful Node.js packages and resources',
+            'publication_date': '2025-03-01'
+        },
     ]
 
     for source in test_sources:

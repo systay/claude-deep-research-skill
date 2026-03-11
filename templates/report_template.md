@@ -175,6 +175,17 @@ CITATION TRACKING (CRITICAL):
 
 [Continue with additional findings as needed]
 
+<!-- OPTIONAL: When OSS implementations were analyzed (oss_search was enabled), include as a Finding: -->
+<!-- ### Finding N: Implementation Landscape                                                        -->
+<!-- [Prose analyzing how the problem is solved in practice across open-source projects]             -->
+<!--                                                                                                -->
+<!-- | Repository | Approach | Adoption | Language | Key Insight |                                  -->
+<!-- |-----------|----------|----------|----------|-------------|                                    -->
+<!-- | org/repo  | [arch]   | ⭐ N.NK  | Go       | [insight] [N] |                                -->
+<!--                                                                                                -->
+<!-- [Analysis of architectural patterns, trade-offs, and lessons from real implementations]         -->
+<!-- Cite each repo as a source: [N] Org (Year). "repo-name". GitHub. URL (Retrieved: Date)         -->
+
 ---
 
 ## Synthesis & Insights

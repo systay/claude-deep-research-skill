@@ -34,10 +34,21 @@ This document contains the detailed methodology for conducting deep research. Th
 4. Plan triangulation approach
 5. Estimate time/effort per phase
 6. Define quality gates
+7. **Detect if topic benefits from OSS implementation search**
+
+**OSS Implementation Detection (Activity 7):**
+
+Set `oss_search: true` in plan output when **2+ of these signals** are present:
+- **Implementation keywords** in query: "implement", "architecture", "library", "framework", "algorithm", "pattern", "how to build", "solution", "technique"
+- **Tool/technology comparison**: "compare", "vs", "alternatives", "which is better"
+- **Known technical domain**: databases, networking, authentication, caching, rate limiting, parsing, scheduling, queuing, search indexing, etc.
+- **Practice-oriented framing**: "best practices", "state of the art", "production-ready", "how do teams solve"
+
+When `oss_search: false`: skip search angles 9-10 in Phase 3. No other impact.
 
 **Graph-of-Thoughts:** Branch into multiple potential research paths, then converge on optimal strategy.
 
-**Output:** Research plan with prioritized investigation paths
+**Output:** Research plan with prioritized investigation paths (including `oss_search` flag)
 
 ---
 
@@ -59,6 +70,16 @@ Before launching searches, decompose the research question into 5-10 independent
 6. **Statistical/data sources** - Quantitative evidence, metrics, benchmarks
 7. **Industry analysis** - Commercial applications, market trends
 8. **Critical analysis/limitations** - Known problems, failure modes, edge cases
+9. **OSS implementations (if `oss_search: true`)** - Actual code solving this problem
+   - Target repos, not issues/discussions: `"[topic] implementation site:github.com"`
+   - Filter for quality: `"[topic] library stars:>100 site:github.com"`
+   - Recent ecosystem: `"best open source [topic] library 2024-2025"`
+10. **Implementation analysis agent (if `oss_search: true`)** - Deep repo comparison
+    - Spawn as Task agent alongside other Phase 3 agents
+    - Search for 3-5 notable repos implementing the research topic
+    - For each repo: note language, stars/adoption, architectural approach, license, maintenance activity
+    - Use WebFetch on README pages to extract architectural details
+    - Return structured comparison of implementation approaches and trade-offs
 
 ### Parallel Execution Protocol
 
@@ -98,9 +119,11 @@ Use Task tool with general-purpose agents (3-5 agents) for:
 - WebSearch(query="quantum computing commercial applications 2024-2025")
 - WebSearch(query="quantum computing vs classical comparison")
 - WebSearch(query="quantum error correction research", allowed_domains=["arxiv.org", "scholar.google.com"])
+- WebSearch(query="quantum computing simulator implementation site:github.com")  [if oss_search]
 - Task(subagent_type="general-purpose", description="Analyze quantum computing papers", prompt="Deep dive into quantum computing academic papers from 2024-2025, extract key findings and methodologies")
 - Task(subagent_type="general-purpose", description="Industry analysis", prompt="Analyze quantum computing industry reports and market data, identify commercial applications")
 - Task(subagent_type="general-purpose", description="Technical challenges", prompt="Extract technical limitations and challenges from quantum computing research")
+- Task(subagent_type="general-purpose", description="OSS implementation analysis", prompt="Search for open-source quantum computing frameworks and simulators. For each notable repo: note language, stars, architecture, license, maintenance status. WebFetch README pages for architectural details. Return structured comparison of 3-5 top implementations.")  [if oss_search]
 ```
 
 **Example parallel execution (using Exa MCP - if available):**
@@ -140,7 +163,7 @@ As results arrive:
 ### Quality Standards
 
 **Source diversity requirements:**
-- Minimum 3 source types (academic, industry, news, technical docs)
+- Minimum 3 source types (academic, industry, news, technical docs, OSS repositories)
 - Temporal diversity (mix of recent 2024-2025 + foundational older sources)
 - Perspective diversity (proponents + critics + neutral analysis)
 - Geographic diversity (not just US sources)

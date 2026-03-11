@@ -81,7 +81,9 @@ Validation Gate
 
 **Announce plan and execute:**
 - Briefly state: selected mode, estimated time, number of sources
-- Example: "Starting standard mode research (5-10 min, 15-30 sources)"
+- For technical topics: flag whether OSS implementation search is relevant
+  (see [methodology Phase 2](./reference/methodology.md#phase-2-plan---strategy-formulation))
+- Example: "Starting standard mode research (5-10 min, 15-30 sources, OSS search enabled)"
 - Proceed without waiting for approval
 
 ---
@@ -141,8 +143,10 @@ WebSearch #3: Recent 2024-2025 filtered
 WebSearch #4: Academic domains
 WebSearch #5: Critical analysis
 WebSearch #6: Industry trends
+WebSearch #7: OSS implementations site:github.com [if technical topic]
 Task agent #1: Academic paper analysis
 Task agent #2: Technical documentation deep dive
+Task agent #3: Repository analysis and implementation comparison [if technical topic]
 ```
 
 **❌ WRONG (sequential execution):**
