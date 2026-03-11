@@ -262,10 +262,10 @@ This skill now incorporates cutting-edge techniques from 2025 academic research:
 
 ## Version
 
-2.3 (2026-03-11) - OSS implementation search, CLAUDE.md
-2.2 (2025-11-05) - Auto-continuation system for unlimited length
-2.0 (2025-11-05) - Major update with 2025 research enhancements
-1.0 (2025-11-04) - Initial release
+- **2.3** (2026-03-11) — OSS implementation search, CLAUDE.md
+- **2.2** (2025-11-05) — Auto-continuation system for unlimited length
+- **2.0** (2025-11-05) — Major update with 2025 research enhancements
+- **1.0** (2025-11-04) — Initial release
 
 ## License
 
