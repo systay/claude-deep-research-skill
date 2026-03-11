@@ -18,6 +18,7 @@ A comprehensive research engine that brings Claude Desktop's Advanced Research c
 - **📋 Dynamic Outline Evolution (WebWeaver)**: Adapt structure after Phase 4 based on evidence
 - **🔗 Attribution Gradients UI**: Interactive citation tooltips showing evidence chains in HTML reports
 - **🛡️ Anti-Fatigue Enforcement**: Prose-first quality checks prevent bullet-point degradation
+- **🔧 OSS Implementation Search**: Conditional search for open-source solutions — analyzes real repo architectures, adoption, and trade-offs when topics are implementation-focused
 
 ### Traditional Strengths
 - **Citation Management**: Automatic source tracking and bibliography generation
@@ -188,11 +189,20 @@ Every research output:
 
 ```
 deep-research/
-├── SKILL.md                    # Main skill definition
-├── research_engine.py          # Core orchestration engine
-├── utils/
-│   ├── citation_manager.py    # Citation tracking & bibliography
-│   └── source_evaluator.py    # Source credibility assessment
+├── SKILL.md                        # Main skill definition (entry point)
+├── reference/
+│   └── methodology.md              # 8-phase detailed methodology
+├── templates/
+│   └── report_template.md          # Report structure template
+├── scripts/
+│   ├── research_engine.py          # Core orchestration engine
+│   ├── citation_manager.py         # Citation tracking & bibliography
+│   ├── source_evaluator.py         # Source credibility assessment (0-100)
+│   ├── validate_report.py          # 8-check quality validation
+│   ├── verify_citations.py         # Anti-hallucination citation checks
+│   ├── verify_html.py              # HTML/MD consistency verification
+│   └── md_to_html.py               # Markdown to HTML conversion
+├── tests/fixtures/                  # Valid/invalid report examples
 ├── requirements.txt
 └── README.md
 ```
@@ -219,6 +229,7 @@ deep-research/
 | Multiple modes | ❌ | ✅ |
 | Local file integration | ❌ | ✅ |
 | Code execution | ❌ | ✅ |
+| OSS implementation search | ❌ | ✅ |
 
 ## 2025 Research Papers Implemented
 
@@ -251,6 +262,8 @@ This skill now incorporates cutting-edge techniques from 2025 academic research:
 
 ## Version
 
+2.3 (2026-03-11) - OSS implementation search, CLAUDE.md
+2.2 (2025-11-05) - Auto-continuation system for unlimited length
 2.0 (2025-11-05) - Major update with 2025 research enhancements
 1.0 (2025-11-04) - Initial release
 
